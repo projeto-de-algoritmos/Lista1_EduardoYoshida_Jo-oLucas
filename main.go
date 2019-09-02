@@ -13,6 +13,7 @@ func main(){
 	var g graph.Graph
 
     for{
+        fmt.Println("\n ------------------")
         fmt.Println("Selecione uma opção: ")
         fmt.Print(" 1 - Inserir vértice no Grafo \n 2 - Inserir aresta no grafo \n 3 - Utilizar grafo pré-definido \n 4 - Imprimir lista de adjacência \n 5 - Buscar nó(BFS) \n")
         scanner.Scan()
@@ -34,6 +35,7 @@ func main(){
             g.AddEdge(n1, n2)
         case "3":
             fillGraph(&g)
+            fmt.Println("Grafo carregado com sucesso")
         case "4":
             g.String()
         case "5":
@@ -43,22 +45,26 @@ func main(){
             fmt.Print("Insira o nó desejado: ")
             scanner.Scan()
             n2 := g.GetNode(scanner.Text())
-            fmt.Println("\n ------------------")
-            prev := g.BFS(n1, func(n *graph.Node){
-                    fmt.Printf("%v\n", n)
-            })
-            path := BFSUtil(n1, n2, prev, &g)
-            fmt.Println("\n ------------------")
-            fmt.Printf("O caminho mais curto entre %v e %v é: \n", n1, n2)
-            printPath(path)
+            if(n1 == nil || n2 == nil){
+                fmt.Println("Nós inválidos")
+            }else{
+                fmt.Println("\n ------------------\n BFS Traversal Order")
+                prev := g.BFS(n1, func(n *graph.Node){
+                        fmt.Printf("%v\n", n)
+                })
+                path := BFSUtil(n1, n2, prev, &g)
+                fmt.Println("\n ------------------")
+                fmt.Printf("O caminho mais curto entre %v e %v é: \n", n1, n2)
+                printPath(path)
+            }
         }
     }
 }
 
 func printPath(path []*graph.Node){
-    str := ""
-    for i:= len(path) -1; i>=0; i--{
-        str += path[i].Key + "->"
+    str := path[len(path) -1].Key
+    for i:= len(path) -2; i>=0; i--{
+        str += "->" + path[i].Key
     }
     fmt.Println(str)
 }
