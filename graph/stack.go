@@ -28,3 +28,9 @@ func (s *Stack)Pop() *Node{
 	s.mutex.Unlock()
 	return &node
 }
+
+func (s *Stack)IsEmpty() bool{
+	s.mutex.RLock()
+    defer s.mutex.RUnlock()
+	return (len(s.nodes) == 0)
+}

@@ -80,3 +80,26 @@ func (g *Graph) BFS(f func(*Node)) {
     g.mutex.RUnlock()
 }
 
+
+func (g *Graph) DFS(f func(*Node)){
+    g.mutex.RLock()
+    s := Stack{}
+    s.New()
+    n := g.nodes[0]
+    s.Add(*n)
+    visited := make(map[*Node]bool, len(g.nodes))
+    visited[n] = true
+    for len(s.nodes) != 0{
+        v := s.Pop()
+        for _, node := range g.edges[*v]{
+            if(!visited[node]){
+                s.Add(*node)
+                visited[node] = true
+            }
+        }
+        f(v)
+
+    }
+
+}
+
