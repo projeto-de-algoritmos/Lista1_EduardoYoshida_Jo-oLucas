@@ -58,6 +58,7 @@ func (g *Graph) BFS(f func(*Node)) {
     n := g.nodes[0]
     q.Enqueue(*n)
     visited := make(map[*Node]bool)
+    visited[n] = true
     for {
         if q.IsEmpty() {
             break

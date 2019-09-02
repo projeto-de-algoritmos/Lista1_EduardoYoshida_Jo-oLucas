@@ -3,15 +3,27 @@ package main
 import (
     "fmt"
     "grafos/graph"
+    // "bufio"
+    // "os"
 )
 
 func main(){
+    // scanner := bufio.NewScanner(os.Stdin)
+    // var text string
 	var g graph.Graph
     fillGraph(&g)
     
+    fmt.Println("Graph adjacency List:")
+    g.String()
+    fmt.Println("Graph BFS starting from A: ")
 	g.BFS(func(n *graph.Node){
 		fmt.Printf("%v\n", n)
+    })
+    fmt.Println("Graph DFS starting from A:")        
+	g.DFS(func(n *graph.Node){
+		fmt.Printf("%v\n", n)
 	})
+
 }
 
 func fillGraph(g *graph.Graph){
