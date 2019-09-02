@@ -36,6 +36,15 @@ func (g *Graph) AddEdge(node1, node2 *Node){
     g.mutex.Unlock()
 }
 
+func (g *Graph) GetNode(key string)*Node{
+    for _, n := range g.nodes {
+        if(n.Key == key){
+            return n
+        }
+    }
+    return nil
+}
+
 func (g *Graph) String() {
     g.mutex.RLock()
     s := ""
@@ -51,12 +60,14 @@ func (g *Graph) String() {
     g.mutex.RUnlock()
 }
 
-func (g *Graph) BFS(f func(*Node)) {
+func (g *Graph) BFS(n *Node, f func(*Node)) map[*Node]*Node{
     g.mutex.RLock()
     q := Queue{}
     q.New()
-    n := g.nodes[0]
+    // n := g.nodes[0]
     q.Enqueue(*n)
+    prev := make(map[*Node]*Node)
+    prev[n] = nil
     visited := make(map[*Node]bool)
     visited[n] = true
     for {
@@ -72,6 +83,7 @@ func (g *Graph) BFS(f func(*Node)) {
             if !visited[j] {
                 q.Enqueue(*j)
                 visited[j] = true
+                prev[j] = node
             }
         }
         if f != nil {
@@ -79,6 +91,7 @@ func (g *Graph) BFS(f func(*Node)) {
         }
     }
     g.mutex.RUnlock()
+    return prev
 }
 
 
